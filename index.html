@@ -904,7 +904,7 @@
                                                                             messageInput.value = '';
 
                                                                             // Показуємо "Typing..." повідомлення
-                                                                            const typingEntry = { name: 'Loono', message: 'Typing...' };
+                                                                            const typingEntry = { name: 'Hope', message: 'Typing...' };
                                                                             chatHistory.push(typingEntry);
                                                                             renderChat();
 
@@ -918,10 +918,10 @@
                                                                                 const data = await res.json();
 
                                                                                 chatHistory.pop(); // видаляємо "Typing..."
-                                                                                chatHistory.push({ name: 'Loono', message: data.reply });
+                                                                                chatHistory.push({ name: 'Hope', message: data.reply });
                                                                             } catch (err) {
                                                                                 chatHistory.pop(); // видаляємо "Typing..."
-                                                                                chatHistory.push({ name: 'Loono', message: 'Error: ' + err.message });
+                                                                                chatHistory.push({ name: 'Hope', message: 'Error: ' + err.message });
                                                                             }
 
                                                                             sessionStorage.setItem(chatKey, JSON.stringify(chatHistory));
