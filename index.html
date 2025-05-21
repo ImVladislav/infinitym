@@ -754,7 +754,7 @@
     "background_video_link":"wp-content/uploads/2024/12/bg2.mp4"
   }'>
 
-  
+
             <div class="elementor-background-video-container elementor-hidden-mobile">
                 <video class="elementor-background-video-hosted" autoplay="" muted="" playsinline="" loop=""></video>
             </div>
@@ -858,13 +858,11 @@
                                                             </head>
 
                                                             <body>
-                                                                
+
                                                                 <div class="chat-container">
-                                                                    <p>Chat with Infinity Hope</p>
+                                                                    <p>Chat with ∞</p>
                                                                     <ul id="chat-history" class="chat-messages"></ul>
                                                                     <form id="chat-form">
-                                                                        <input type="text" id="chat-name"
-                                                                            placeholder="Name" required />
                                                                         <input type="text" id="chat-message"
                                                                             placeholder="Message" required />
                                                                         <button type="submit">SUBMIT</button>
@@ -872,14 +870,13 @@
                                                                 </div>
 
 
-
                                                                 <script>
                                                                     document.addEventListener('DOMContentLoaded', () => {
                                                                         const form = document.getElementById('chat-form');
                                                                         const historyEl = document.getElementById('chat-history');
-                                                                        const nameInput = document.getElementById('chat-name');
                                                                         const messageInput = document.getElementById('chat-message');
                                                                         const chatKey = 'loonoChatHistory';
+                                                                        const nameInput = "You"; // жорстко задане ім’я
 
                                                                         let chatHistory = JSON.parse(sessionStorage.getItem(chatKey)) || [];
 
@@ -894,17 +891,15 @@
 
                                                                         form.addEventListener('submit', async (e) => {
                                                                             e.preventDefault();
-                                                                            const name = nameInput.value.trim();
+                                                                            const name = nameInput;
                                                                             const message = messageInput.value.trim();
-                                                                            if (!name || !message) return;
+                                                                            if (!message) return;
 
-                                                                            // Додаємо повідомлення юзера в історію
                                                                             chatHistory.push({ name, message });
                                                                             renderChat();
                                                                             messageInput.value = '';
 
-                                                                            // Показуємо "Typing..." повідомлення
-                                                                            const typingEntry = { name: 'Hope', message: 'Typing...' };
+                                                                            const typingEntry = { name: '∞', message: 'Typing...' };
                                                                             chatHistory.push(typingEntry);
                                                                             renderChat();
 
@@ -912,16 +907,16 @@
                                                                                 const res = await fetch('https://ailoono.onrender.com/chat', {
                                                                                     method: 'POST',
                                                                                     headers: { 'Content-Type': 'application/json' },
-                                                                                    body: JSON.stringify({ messages: [{ message }] }) // лиш одне повідомлення
+                                                                                    body: JSON.stringify({ messages: [{ message }] })
                                                                                 });
 
                                                                                 const data = await res.json();
 
                                                                                 chatHistory.pop(); // видаляємо "Typing..."
-                                                                                chatHistory.push({ name: 'Hope', message: data.reply });
+                                                                                chatHistory.push({ name: '∞', message: data.reply });
                                                                             } catch (err) {
-                                                                                chatHistory.pop(); // видаляємо "Typing..."
-                                                                                chatHistory.push({ name: 'Hope', message: 'Error: ' + err.message });
+                                                                                chatHistory.pop();
+                                                                                chatHistory.push({ name: '∞', message: 'Error: ' + err.message });
                                                                             }
 
                                                                             sessionStorage.setItem(chatKey, JSON.stringify(chatHistory));
@@ -1139,7 +1134,7 @@
                             <div class="elementor-widget-container">
                                 <div class="elementor-icon-wrapper">
                                     <a class="elementor-icon links" href="https://t.me/XXXXX" target="_blank">
-                                        <img  src="./wp-content/uploads/2024/12/f3.png">
+                                        <img src="./wp-content/uploads/2024/12/f3.png">
 
                                     </a>
                                 </div>
@@ -1178,9 +1173,10 @@
                                         z-index: 0;
                                         top: 0;
                                         left: 0;
-                                    
+
                                     }
-                                    .links{
+
+                                    .links {
                                         cursor: none !important;
                                         width: 30px !important;
                                         height: 30px !important;
