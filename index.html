@@ -1426,8 +1426,8 @@
                                         setInterval(updateCursorText, 150);
 
                                         document.addEventListener("mousemove", (e) => {
-                                            customCursor.style.left = `${e.pageX + 0}px`;
-                                            customCursor.style.top = `${e.pageY + 0}px`;
+                                            customCursor.style.left = `${e.pageX - 6}px`;
+                                            customCursor.style.top = `${e.pageY - 6}px`;
                                         });
 
                                         if (!targetElement) return;
