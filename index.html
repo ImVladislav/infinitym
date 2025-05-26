@@ -1411,7 +1411,7 @@
                                 <div id="countdown-cursor"></div>
 
                                 <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
+                                    document.addEventListener("DOMContentLoaded", async function () {
                                         const customCursor = document.getElementById("custom-cursor");
                                         const countdownCursor = document.getElementById("countdown-cursor");
                                         const targetElement = document.querySelector("#img-hover-countdown");
@@ -1431,23 +1431,44 @@
                                         });
 
                                         if (!targetElement) return;
-                                        const countdownEnd = new Date(Date.now() + 6 * 60 * 60 * 1000); // 6 годин від теперішнього моменту
 
-                                        function updateCountdown() {
-                                            const now = new Date().getTime();
-                                            const timeLeft = countdownEnd.getTime() - now;
+                                        // 🔥 ФІКСОВАНА кінцева дата у UTC
+                                        const countdownEnd = new Date("2025-05-26T18:00:00Z").getTime();
 
-                                            if (timeLeft <= 0) {
-                                                countdownCursor.textContent = "00:00:00";
-                                            } else {
-                                                const hours = String(Math.floor(timeLeft / (1000 * 60 * 60))).padStart(2, "0");
-                                                const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60)).padStart(2, "0");
-                                                const seconds = String(Math.floor((timeLeft / 1000) % 60)).padStart(2, "0");
-                                                countdownCursor.textContent = `${hours}:${minutes}:${seconds}`;
-                                            }
+                                        // ⏱ Отримуємо поточний UTC час
+                                        let currentUTC;
+                                        try {
+                                            const res = await fetch("https://worldtimeapi.org/api/timezone/Etc/UTC");
+                                            const data = await res.json();
+                                            currentUTC = new Date(data.utc_datetime).getTime();
+                                        } catch (err) {
+                                            console.warn("UTC fetch error, fallback to local time");
+                                            currentUTC = new Date().getTime(); // fallback
                                         }
 
-                                        setInterval(updateCountdown, 1000);
+                                        let timeLeft = countdownEnd - currentUTC;
+
+                                        function renderCountdown(ms) {
+                                            if (ms <= 0) {
+                                                countdownCursor.textContent = "00:00:00";
+                                                return;
+                                            }
+                                            const hours = String(Math.floor(ms / (1000 * 60 * 60))).padStart(2, "0");
+                                            const minutes = String(Math.floor((ms / (1000 * 60)) % 60)).padStart(2, "0");
+                                            const seconds = String(Math.floor((ms / 1000) % 60)).padStart(2, "0");
+                                            countdownCursor.textContent = `${hours}:${minutes}:${seconds}`;
+                                        }
+
+                                        renderCountdown(timeLeft);
+                                        const timer = setInterval(() => {
+                                            timeLeft -= 1000;
+                                            if (timeLeft <= 0) {
+                                                clearInterval(timer);
+                                                countdownCursor.textContent = "00:00:00";
+                                                return;
+                                            }
+                                            renderCountdown(timeLeft);
+                                        }, 1000);
 
                                         targetElement.addEventListener("mouseenter", () => {
                                             countdownCursor.style.display = "block";
@@ -1469,6 +1490,8 @@
                                         });
                                     });
                                 </script>
+
+
                             </div>
                         </div>
                     </div>
